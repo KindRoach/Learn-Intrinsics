@@ -32,7 +32,7 @@ endif ()
 
 if (ENABLE_AVX512)
     if (MSVC)
-        message(WARNING "MSVC doesn't support AVX512.")
+        add_compile_options(/arch:AVX512)
     else ()
         add_compile_options(
                 -mavx512f
