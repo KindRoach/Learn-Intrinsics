@@ -29,10 +29,11 @@ auto measure_avg_time(size_t runs, Func &&f, Args &&... args)
     return result;
 }
 
-int vector_dot(const std::vector<int> &a, const std::vector<int> &b) {
+template<typename T>
+T vector_dot(const std::vector<T> &a, const std::vector<T> &b) {
     assert(a.size() == b.size());
 
-    int sum = 0;
+    T sum = 0;
     for (size_t i = 0; i < a.size(); i++) {
         sum += a[i] * b[i];
     }
@@ -55,7 +56,7 @@ int main(int argc, char *argv[]) {
     std::vector a(n, 2);
     std::vector b(n, 3);
 
-    int sum = measure_avg_time(loop, vector_dot, a, b);
+    auto sum = measure_avg_time(loop, vector_dot<int>, a, b);
 
     std::cout << "sum=" << sum << std::endl;
 }
