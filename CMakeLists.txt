@@ -3,8 +3,6 @@ project(LearnSIMD)
 
 set(CMAKE_CXX_STANDARD 20)
 
-
-
 if (MSVC)
     add_compile_options(/Qvec-report:2)
 else ()
@@ -58,4 +56,4 @@ if (ENABLE_AVX512)
     endif ()
 endif ()
 
-add_executable(LearnSIMD main.cpp)
+add_executable(AutoVectorization auto_vectorization.cpp)
