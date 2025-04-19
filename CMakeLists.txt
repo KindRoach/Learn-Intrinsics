@@ -69,3 +69,4 @@ if (AMX)
 endif ()
 
 add_executable(AutoVectorization auto_vectorization.cpp)
+add_executable(AmxExample amx_example.cpp)
