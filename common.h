@@ -21,10 +21,12 @@ auto measure_avg_time(size_t runs, Func &&f, Args &&... args)
     }
 
     auto end = high_resolution_clock::now();
-    auto total_duration = duration_cast<duration<double> >(end - start);
 
-    std::cout << "total: " << total_duration.count() << " seconds" << std::endl;
-    std::cout << "avg: " << total_duration.count() / runs << " seconds" << std::endl;
+    auto total_duration_ms = duration_cast<milliseconds>(end - start);
+    auto total_duration_ns = duration_cast<nanoseconds>(end - start);
+
+    std::cout << "total: " << total_duration_ms.count() << " ms" << std::endl;
+    std::cout << "avg: " << static_cast<double>(total_duration_ns.count()) / runs << " ns" << std::endl;
 
     return result;
 }

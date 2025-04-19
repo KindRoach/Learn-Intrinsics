@@ -13,13 +13,13 @@ else ()
     add_compile_options(-fopt-info-vec-optimized)
 endif ()
 
-option(ENABLE_SSE "Enable SSE instruction" ON)
-option(ENABLE_AVX "Enable AVX instruction" ON)
-option(ENABLE_AVX2 "Enable AVX2 instruction" ON)
-option(ENABLE_AVX512 "Enable AVX512 instruction" OFF)
-option(ENABLE_AMX "Enable AVX512 instruction" OFF)
+option(SSE "Enable SSE instruction" OFF)
+option(AVX "Enable AVX instruction" OFF)
+option(AVX2 "Enable AVX2 instruction" OFF)
+option(AVX512 "Enable AVX512 instruction" OFF)
+option(AMX "Enable AVX512 instruction" OFF)
 
-if (ENABLE_SSE)
+if (SSE)
     if (MSVC)
         add_compile_options(/arch:SSE4.2)
     else ()
@@ -27,7 +27,7 @@ if (ENABLE_SSE)
     endif ()
 endif ()
 
-if (ENABLE_AVX)
+if (AVX)
     if (MSVC)
         add_compile_options(/arch:AVX)
     else ()
@@ -35,7 +35,7 @@ if (ENABLE_AVX)
     endif ()
 endif ()
 
-if (ENABLE_AVX2)
+if (AVX2)
     if (MSVC)
         add_compile_options(/arch:AVX2)
     else ()
@@ -43,15 +43,27 @@ if (ENABLE_AVX2)
     endif ()
 endif ()
 
-if (ENABLE_AVX512)
+if (AVX512)
     if (MSVC)
         add_compile_options(/arch:AVX512)
     else ()
         add_compile_options(
                 -mavx512f
-                -mavx512bw
-                -mavx512dq
-                -mavx512vl
+                -mavx512fp16
+                -mavx512bf16
+                -mavx512vnni
+        )
+    endif ()
+endif ()
+
+if (AMX)
+    if (MSVC)
+        message(FATAL_ERROR "MSVC does not support AMX currently")
+    else ()
+        add_compile_options(
+                -mamx-tile
+                -mamx-int8
+                -mamx-bf16
         )
     endif ()
 endif ()

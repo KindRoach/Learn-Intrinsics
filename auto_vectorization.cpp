@@ -1,5 +1,3 @@
-#include <immintrin.h>
-
 #include "common.h"
 
 template <typename T>
