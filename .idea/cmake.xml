@@ -2,12 +2,12 @@
 <project version="4">
   <component name="CMakeSharedSettings">
     <configurations>
-      <configuration PROFILE_NAME="no-simd" ENABLED="true" CONFIG_NAME="RelWithDebInfo" />
-      <configuration PROFILE_NAME="sse" ENABLED="true" CONFIG_NAME="RelWithDebInfo" GENERATION_OPTIONS="-DSSE=ON" />
-      <configuration PROFILE_NAME="avx" ENABLED="true" CONFIG_NAME="RelWithDebInfo" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON" />
-      <configuration PROFILE_NAME="avx2" ENABLED="true" CONFIG_NAME="RelWithDebInfo" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON -DAVX2=ON" />
-      <configuration PROFILE_NAME="avx512" ENABLED="true" CONFIG_NAME="RelWithDebInfo" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON -DAVX2=ON -DAVX512=ON" />
-      <configuration PROFILE_NAME="amx" ENABLED="true" CONFIG_NAME="RelWithDebInfo" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON -DAVX2=ON -DAVX512=ON -DAMX=ON" />
+      <configuration PROFILE_NAME="no-simd" ENABLED="true" CONFIG_NAME="Release" />
+      <configuration PROFILE_NAME="sse" ENABLED="true" CONFIG_NAME="Release" GENERATION_OPTIONS="-DSSE=ON" />
+      <configuration PROFILE_NAME="avx" ENABLED="true" CONFIG_NAME="Release" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON" />
+      <configuration PROFILE_NAME="avx2" ENABLED="true" CONFIG_NAME="Release" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON -DAVX2=ON" />
+      <configuration PROFILE_NAME="avx512" ENABLED="true" CONFIG_NAME="Release" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON -DAVX2=ON -DAVX512=ON" />
+      <configuration PROFILE_NAME="amx" ENABLED="true" CONFIG_NAME="Release" GENERATION_OPTIONS="-DSSE=ON -DAVX=ON -DAVX2=ON -DAVX512=ON -DAMX=ON" />
     </configurations>
   </component>
 </project>

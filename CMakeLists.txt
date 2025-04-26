@@ -4,13 +4,17 @@ project(LearnSIMD)
 set(CMAKE_CXX_STANDARD 20)
 
 if (MSVC)
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Zi")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
     add_compile_options(/Qvec-report:2)
 else ()
-    # Set optimization level to -O3 for RelWithDebInfo builds
-    # GCC only automatic vectorization in -O3
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g")
-    set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 -g")
-    add_compile_options(-fopt-info-vec-optimized)
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        add_compile_options(-fopt-info-vec-optimized)
+    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        add_compile_options(-Rpass=loop-vectorize)
+    endif ()
 endif ()
 
 option(SSE "Enable SSE instruction" OFF)
