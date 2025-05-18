@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
         n = std::stoi(argv[1]);
     }
 
-    size_t loop{100000000};
+    size_t loop{10000000};
     if (argc > 2)
     {
         loop = std::stoi(argv[2]);
