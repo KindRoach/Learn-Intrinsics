@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.28)
-project(LearnSIMD)
+project(LearnIntrinsics)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# add debug to release and turn on auto-vec report
 if (MSVC)
     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Zi")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
@@ -17,61 +19,33 @@ else ()
     endif ()
 endif ()
 
-option(SSE "Enable SSE instruction" OFF)
-option(AVX "Enable AVX instruction" OFF)
-option(AVX2 "Enable AVX2 instruction" OFF)
-option(AVX512 "Enable AVX512 instruction" OFF)
-option(AMX "Enable AVX512 instruction" OFF)
+include_directories(src)
 
-if (SSE)
-    if (MSVC)
-        add_compile_options(/arch:SSE4.2)
-    else ()
-        add_compile_options(-msse4.2)
+function(add_vectorized_target target_name flag_list src)
+    add_executable(${target_name} ${src})
+    target_compile_options(${target_name} PRIVATE ${flag_list})
+    message(STATUS "Added target ${target_name} with flags: ${flag_list}")
+endfunction()
+
+function(add_vectorized_targets src)
+    get_filename_component(base ${src} NAME_WE)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+        add_vectorized_target(${base}_sse "-msse4.2" ${src})
+        add_vectorized_target(${base}_avx "-mavx" ${src})
+        add_vectorized_target(${base}_avx2 "-mavx2" ${src})
+        add_vectorized_target(${base}_avx512 "-mavx512f" ${src})
+    elseif (MSVC)
+        add_vectorized_target(${base}_sse "/arch:SSE4.2" ${src})
+        add_vectorized_target(${base}_avx "/arch:AVX" ${src})
+        add_vectorized_target(${base}_avx2 "/arch:AVX2" ${src})
+        add_vectorized_target(${base}_avx512 "/arch:AVX512" ${src})
     endif ()
+endfunction()
+
+add_vectorized_targets(src/002-sse-avx/auto_vectorization.cpp)
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+    add_executable(amx_example src/003-amx/amx_example.cpp)
+    target_compile_options(amx_example PRIVATE "-mamx-tile -mamx-int8 -mamx-bf16")
+elseif (MSVC)
+    message(WARNING "MSVC not support AMX yet, skip amx_example")
 endif ()
-
-if (AVX)
-    if (MSVC)
-        add_compile_options(/arch:AVX)
-    else ()
-        add_compile_options(-mavx)
-    endif ()
-endif ()
-
-if (AVX2)
-    if (MSVC)
-        add_compile_options(/arch:AVX2)
-    else ()
-        add_compile_options(-mavx2)
-    endif ()
-endif ()
-
-if (AVX512)
-    if (MSVC)
-        add_compile_options(/arch:AVX512)
-    else ()
-        add_compile_options(
-                -mavx512f
-                -mavx512fp16
-                -mavx512bf16
-                -mavx512vnni
-        )
-    endif ()
-endif ()
-
-if (AMX)
-    if (MSVC)
-        message(FATAL_ERROR "MSVC does not support AMX currently")
-    else ()
-        add_compile_options(
-                -mamx-tile
-                -mamx-int8
-                -mamx-bf16
-        )
-    endif ()
-
-    add_executable(AmxExample amx_example.cpp)
-endif ()
-
-add_executable(AutoVectorization auto_vectorization.cpp)
