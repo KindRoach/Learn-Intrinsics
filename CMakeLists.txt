@@ -46,10 +46,10 @@ endfunction()
 
 function(add_amx_targets src)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
-        add_executable(amx_example src)
-        target_compile_options(amx_example PRIVATE "-mamx-tile -mamx-int8 -mamx-bf16")
+        add_executable(amx_example ${src})
+        target_compile_options(amx_example PRIVATE -mamx-tile -mamx-int8 -mamx-bf16)
     elseif (MSVC)
-        message(WARNING "MSVC not support AMX yet, skip amx_example")
+        message(WARNING "MSVC does not support AMX yet, skipping amx_example")
     endif ()
 endfunction()
 
