@@ -82,6 +82,14 @@ public:
         std::cout << std::string(name_width + total_width + calls_width + avg_width + percent_width, '-') << '\n';
     }
 
+    static void reset()
+    {
+        call_counts.clear();
+        insertion_order.clear();
+        start_times.clear();
+        total_times.clear();
+    }
+
 private:
     using clock = std::chrono::high_resolution_clock;
     using duration_t = std::chrono::nanoseconds;

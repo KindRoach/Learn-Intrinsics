@@ -53,5 +53,6 @@ function(add_amx_targets src)
     endif ()
 endfunction()
 
+add_executable(prefetch src/001-misc/prefetch.cpp)
 add_vectorized_targets(src/002-sse-avx/auto_vectorization.cpp)
 add_amx_targets(src/003-amx/amx_example.cpp)
